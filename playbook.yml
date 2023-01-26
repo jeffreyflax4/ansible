@@ -4,5 +4,7 @@
   connection: local
   gather_facts: false
   tags: provisioning
+  vars_files:
+    - /opt/secrets/aws_secrets.yml
   roles:
    - build_aws_splunk_instances

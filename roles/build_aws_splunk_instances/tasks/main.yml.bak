@@ -1,6 +1,6 @@
 ---
 # tasks file for build_aws_splunk_instances
-- name: Task 1 - Create my security group
+- name: Task # 1 - Create my security group
   local_action:
     module: ec2_group
     name: "{{ splunk_indexer_security_group }}"
@@ -40,7 +40,7 @@
         cidr_ip: 0.0.0.0/0
   register: basic_firewall
 
-- name: Task 2 Launch the new EC2 Instance
+- name: Task # 2 Launch the new EC2 Instance
   local_action:  ec2
     group={{ splunk_indexer_security_group }} 
     instance_type={{ aws_indexer_instance_type }} 
@@ -49,18 +49,15 @@
     region={{ aws_region }} 
     keypair={{ keypair }}
     count={{ total_indexer_instances }}
+    #exact_count={{ total_indexer_instances }}
+    #count_tag={{ indexer_tag_name }}
   register: ec2
 
-- name: Task 3 Add EC2 Instances to Host Group
-  add_host:
-    name: "{{ item.public_ip }}"
-    groups: "{{ indexers_group_name }}"
-  loop: "{{ ec2.instances }}"
-
-- name: Task 4 Tag EC2 Instances
-  ec2_tag:
-    resource: "{{ item.id }}"
+- name: Task # 3 Add Tagging to EC2 instance
+  local_action: ec2_tag resource={{ item.id }} region={{ aws_region }} state=present
+  with_items: "{{ ec2.instances }}"
+  args:
     tags:
-      env: "{{ environment }}"
-      purpose: "{{ purpose }}"
-  loop: "{{ ec2.instances }}"
+      Name: "{{ indexer_tag_name }}"
+      env: "{{ environ }}"
+      purpose: " {{ purpose }}"
