@@ -1,7 +1,38 @@
-Role Name
+build_aws_splunk_instances
 =========
 
-A brief description of the role goes here.
+These steps should be visible in GIT. Some of them are executed manually prior to starting to use this role.
+
+1.) Launch a standard AWS Free Tier instance (It might be smart to create a Launch Template for the Ansible Controller Node)
+2.) Create an IAM Role
+	   a. Go to IAM > Roles > Create Role
+	   b. AWS service and EC2 are Selected, Click Next
+	   c. Search for AmaxonEC2FullAccess and Select it, Click Next
+	   d. Name the Role and Click Create Role
+	   e. Go to EC2 > Instances page, and select your controller node
+	   f. Click Actions > Security > Modify IAM Role
+	   g. Select your named IAM role from above and click Update IAM Role
+3.) Create an IAM User Group (for example Admin) and then add that group to a newly created IAM User (for example - ansible-test)reate an Access Key and Secret Key
+       a. Go to IAM > User Groups > Create Group
+       b. Enter group name and select the appropriate permissions policy (For this purpose, we selected AdministratorAccess, thought this may be overkill)
+       c. Then select Create Group
+       d. Go to IAM > Users > Add users
+       e. Enter User Name, Click Next
+       f. Select your Group Name from step (b.) and click Next
+       g. Then review and click Create User
+4.) Next, create a Access Key and Secret Key for your user and save that file locally
+5.) Log into your Ansible Controller Node AWS instance and run the initial steps
+    # sudo ssh -i github.pem ec2-user@1.2.3.4
+    # sudo su
+    # adduser ansible
+    # amazon-linux-extras install epel
+    # yum install git -y
+    # su ansible
+    # cd /opt
+    # git clone https://github.com/jeffreyflax4/ansible.git
+    # sh yum_installs.sh
+6.) Add the amazon.aws collection
+    # ansible-galaxy collection install amazon.aws 
 
 Requirements
 ------------
