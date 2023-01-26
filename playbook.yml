@@ -1,0 +1,8 @@
+---
+- name: Create the Splunk EC2 instances using the build_aws_splunk_instances role
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tags: provisioning
+  roles:
+   - build_aws_splunk_instances
