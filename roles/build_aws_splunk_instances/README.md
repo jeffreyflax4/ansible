@@ -26,7 +26,8 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # sudo su
     # adduser ansible
     # amazon-linux-extras install epel
-    # yum install ansible git -y
+    # yum install git -y
+    # pip3 install ansible (This install takes a few minutes)
 6.) In this setup, we will use /opt as the working directory, and we want the ansible user to have write permissions for that directory
     # setfacl -R -m u:ansible:rwx /opt
     # su ansible
@@ -39,10 +40,22 @@ These steps should be visible in GIT. Some of them are executed manually prior t
 9.) Clone your GIT repository
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible.git
-STOPPED INSTRUCTIONS HERE 
-    # sh yum_installs.sh
-6.) Add the amazon.aws collection
-    # ansible-galaxy collection install amazon.aws 
+10.) Install Amazon.AWS Collection
+    # cd ansible
+    # ansible-galaxy collection install -r roles/requirements.yml
+11.) Update defaults/main.yml in the role to apply any settings changes
+    # vi roles/build_aws_splunk_instances/default/main.yml
+12.) Create aws_secrets file with AWS Access Key and AWS Secret Key
+    # cd /opt
+    # mkdir secrets
+    # cd secrets
+    # ansible-vault create aws_secrets.yml
+    # Set up a password, and then create a file with two lines (use keys from Step 4 above)
+    	aws_access_key: <ACCESS_KEY>
+	aws_secret_key: <SECRET_KEY>
+13.) Run playbook.yml to create the desired instances
+    # cd /opt/ansible
+    # ansible-playbook --ask-vault-pass playbook.yml
 
 Requirements
 ------------
