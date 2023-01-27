@@ -1,13 +1,21 @@
 ---
 # defaults file for build_aws_splunk_instances
-# details about AWS Indexer configurations
 keypair: github
+aws_region: us-east-1
+# details about AWS Indexer configurations
 aws_indexer_instance_type: t2.micro
 aws_indexer_image_type: ami-0b5eea76982371e91
-aws_region: us-east-1
 splunk_indexer_security_group: my-splunk-idx-sg
 indexers_group_name: indexers 
-total_indexer_instances: 3
+total_indexer_instances: 6
 indexer_tag_name: Indexer
+# details about AWS Search Head Configurations
+aws_search_head_instance_type: t2.micro
+aws_search_head_image_type: ami-0b5eea76982371e91
+splunk_search_head_security_group: my-splunk-sh-sg
+search_heads_group_name: search_heads
+total_search_head_instances: 3
+search_head_tag_name: Search Head
+# Test Environment Variables
 environ: TEST
 purpose: testing
