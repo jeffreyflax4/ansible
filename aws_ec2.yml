@@ -13,4 +13,5 @@ hostnames:
 
 groups:
   indexers: "'Indexer' in tags.Name"
+  search_heads: "'Search Head' in tags.Name"
   controller: "'Ansible Controller Node' in tags.Name"
