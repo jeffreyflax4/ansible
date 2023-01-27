@@ -27,9 +27,19 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # adduser ansible
     # amazon-linux-extras install epel
     # yum install git -y
+6.) In this setup, we will use /opt as the working directory, and we want the ansible user to have write permissions for that directory
+    # setfacl -R -m u:ansible:rwx /opt
     # su ansible
+7.) Create SSH Key-Pair
+    # cd ~
+    # ssh-keygen # Just hit enter until the process completed
+    # cat .ssh/id_rsa.pub
+8.) Copy the entire contents of the Public Key and add it to the GitHub you are using
+    # Settings > SSH and GPG Keys > New SSH key (Give the key a name and paste)
+9.) Clone your GIT repository
     # cd /opt
-    # git clone https://github.com/jeffreyflax4/ansible.git
+    # git clone git@github.com:jeffreyflax4/ansible.git
+STOPPED INSTRUCTIONS HERE 
     # sh yum_installs.sh
 6.) Add the amazon.aws collection
     # ansible-galaxy collection install amazon.aws 
