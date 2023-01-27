@@ -26,8 +26,7 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # sudo su
     # adduser ansible
     # amazon-linux-extras install epel
-    # yum install git ansible -y
-    # pip3 install ansible (This install takes a few minutes)
+    # yum install git -y
 6.) In this setup, we will use /opt as the working directory, and we want the ansible user to have write permissions for that directory
     # setfacl -R -m u:ansible:rwx /opt
     # su ansible
@@ -40,8 +39,18 @@ These steps should be visible in GIT. Some of them are executed manually prior t
 9.) Clone your GIT repository
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible.git
-10.) Install Amazon.AWS Collection
-    # cd ansible
+10.) Run yum_installs bash script
+    # exit (you are not operating as the root user)
+    # cd /opt/ansible
+    # sh yum_installs.sh (this will take a few minutes)
+11.) Make sure that Ansible is running python3
+    # ansible --version (looking for python version)
+    # vi /usr/bin/ansible
+    # On the first line, change #!/usr/bin/python2 to #!/usr/bin/python3
+    # ansible --version (you should now see 3.x for the python version)
+10.) Install Amazon.AWS Collection, as ansible user
+    # su ansible
+    # cd /opt/ansible
     # ansible-galaxy collection install -r roles/requirements.yml
 11.) Update defaults/main.yml in the role to apply any settings changes
     # vi roles/build_aws_splunk_instances/default/main.yml
