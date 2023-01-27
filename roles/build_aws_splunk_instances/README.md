@@ -66,6 +66,17 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # cd /opt/ansible
     # ansible-playbook --ask-vault-pass playbook.yml
 
+NEXT, you want to make sure you set up your dynamic inventory
+
+1.) Run aws configure, to enter in AWS credentials
+    # aws configure (then enter details for the following)
+        AWS Access Key ID [None]: <ACCESS KEY>
+        AWS Secret Access Key [None]: <SECRET KEY>
+        Default region name [None]: us-east-1
+        Default output format [None]: json
+2.) Run a command to test that you can see your inventory
+    # ansible-inventory -i aws_ec2.yml --graph
+
 Requirements
 ------------
 
