@@ -1,11 +1,11 @@
 ---
 - name: Create new ec2 Security Group
-  ec2_group_info:
+  amazon.aws.ec2_security_group:
     name: "{{ splunk_indexer_security_group }}"
     description: Security Group for webserver Servers
     region: "{{ aws_region }}"
-    #aws_access_key: "{{ aws_access_key }}"
-    #aws_secret_key: "{{ aws_secret_key }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
     rules:
       - proto: tcp
         from_port: 22
