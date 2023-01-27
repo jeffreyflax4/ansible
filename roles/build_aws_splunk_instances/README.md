@@ -26,7 +26,7 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # sudo su
     # adduser ansible
     # amazon-linux-extras install epel
-    # yum install git -y
+    # yum install git ansible -y
     # pip3 install ansible (This install takes a few minutes)
 6.) In this setup, we will use /opt as the working directory, and we want the ansible user to have write permissions for that directory
     # setfacl -R -m u:ansible:rwx /opt
