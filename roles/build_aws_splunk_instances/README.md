@@ -7,7 +7,7 @@ These steps should be visible in GIT. Some of them are executed manually prior t
 2.) Create an IAM Role
 	   a. Go to IAM > Roles > Create Role
 	   b. AWS service and EC2 are Selected, Click Next
-	   c. Search for AmaxonEC2FullAccess and Select it, Click Next
+	   c. Search for AmazonEC2FullAccess and Select it, Click Next
 	   d. Name the Role and Click Create Role
 	   e. Go to EC2 > Instances page, and select your controller node
 	   f. Click Actions > Security > Modify IAM Role
@@ -25,7 +25,7 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # sudo ssh -i github.pem ec2-user@1.2.3.4
     # sudo su
     # adduser ansible
-    # amazon-linux-extras install epel
+    # amazon-linux-extras install epel -y
     # yum install git -y
 6.) In this setup, we will use /opt as the working directory, and we want the ansible user to have write permissions for that directory
     # setfacl -R -m u:ansible:rwx /opt
@@ -40,7 +40,7 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible.git
 10.) Run yum_installs bash script
-    # exit (you are not operating as the root user)
+    # exit (you are now operating as the root user)
     # cd /opt/ansible
     # sh yum_installs.sh (this will take a few minutes)
 11.) Make sure that Ansible is running python3
