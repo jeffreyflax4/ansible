@@ -53,6 +53,8 @@
     region: "{{ aws_region }}" 
     key_name: "{{ keypair }}"
     exact_count: "{{ total_search_head_instances }}"
+#### This next value sets it so that when the instance is initially created, a flag is placed on the host making it so that it can not be terminated. If you update the defaults/main.yml file to have the total instances be less than it was before, the script will not terminate the instances. You must go to the AWS console and manually change the setting, then terminate the instance locally ####
+    termination_protection: true
     filters: 
       tag:Name: "{{ search_head_tag_name }}"
       instance-state-name: running
