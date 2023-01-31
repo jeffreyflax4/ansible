@@ -14,4 +14,7 @@ hostnames:
 groups:
   indexers: "'Indexer' in tags.Name"
   search_heads: "'Search Head' in tags.Name"
+  cluster_masters: "'Cluster Master' in tags.Name"
+  deployers: "'Deployer' in tags.Name"
+  splunk_mgmt: "'Splunk Management' in tags.Name"
   controller: "'Ansible Controller Node' in tags.Name"
