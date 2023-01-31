@@ -49,6 +49,7 @@
     region: "{{ aws_region }}" 
     key_name: "{{ keypair }}"
     exact_count: "{{ total_indexer_instances }}"
+    termination_protection: true
     filters: 
       tag:Name: "{{ indexer_tag_name }}"
       instance-state-name: running
