@@ -2,7 +2,7 @@
 - name: Task 1 - Create new ec2 Security Group
   amazon.aws.ec2_security_group:
     name: "{{ splunk_search_head_security_group }}"
-    description: Security Group for webserver Servers
+    description: Security Group for Search Head Instances
     region: "{{ aws_region }}"
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
@@ -44,7 +44,7 @@
         cidr_ip: 0.0.0.0/0
   register: basic_firewall
 
-- name: Task 2 - - - - - - - - - Launch the new EC2 Instance
+- name: Task 2 - Launch the new EC2 Instance
   amazon.aws.ec2_instance:
     security_group: "{{ splunk_search_head_security_group }}" 
     instance_type: "{{ aws_search_head_instance_type }}" 

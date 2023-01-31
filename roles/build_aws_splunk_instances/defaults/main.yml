@@ -16,6 +16,27 @@ splunk_search_head_security_group: my-splunk-sh-sg
 search_heads_group_name: search_heads
 total_search_head_instances: 3
 search_head_tag_name: Search Head
+# details about AWS Deployer Configurations
+aws_deployer_instance_type: t2.micro
+aws_deployer_image_type: ami-0b5eea76982371e91
+splunk_deployer_security_group: my-splunk-deployer-sg
+deployers_group_name: deployers
+total_deployer_instances: 1
+deployer_tag_name: Deployer
+# details about AWS Cluster Master Configurations
+aws_cluster_master_instance_type: t2.micro
+aws_cluster_master_image_type: ami-0b5eea76982371e91
+splunk_cluster_master_security_group: my-splunk-cm-sg
+cluster_masters_group_name: cluster_masters
+total_cluster_master_instances: 1
+cluster_master_tag_name: Cluster Master
+# details about AWS Splunk Management (LM/DS/MC) Configurations
+aws_splunk_mgmt_instance_type: t2.micro
+aws_splunk_mgmt_image_type: ami-0b5eea76982371e91
+splunk_mgmt_security_group: my-splunk-mgmt-sg
+splunk_mgmt_group_name: splunk_mgmt
+total_splunk_mgmt_instances: 1
+splunk_mgmt_tag_name: Splunk Management
 # Test Environment Variables
 environ: TEST
 purpose: testing

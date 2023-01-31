@@ -4,3 +4,12 @@
 
 - name: Add search head instances
   include_tasks: add_search_head_instances.yml
+
+- name: Add deployer instances
+  include_tasks: add_deployer_instances.yml
+
+- name: Add cluster master instances
+  include_tasks: add_cluster_master_instances.yml
+
+- name: Add splunk mgmt (LM/DS/CM) isntances
+  include_tasks: add_splunk_mgmt_instances.yml

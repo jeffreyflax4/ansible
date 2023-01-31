@@ -1,8 +1,8 @@
 ---
 - name: Task 1 - Create new ec2 Security Group
   amazon.aws.ec2_security_group:
-    name: "{{ splunk_indexer_security_group }}"
-    description: Security Group for Indexer Instances
+    name: "{{ splunk_cluster_master_security_group }}"
+    description: Security Group for Cluster Master Instances
     region: "{{ aws_region }}"
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
@@ -24,6 +24,10 @@
         to_port: 8000
         cidr_ip: 0.0.0.0/0
       - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
         from_port: 8089
         to_port: 8089
         cidr_ip: 0.0.0.0/0
@@ -42,15 +46,15 @@
 
 - name: Task 2 - Launch the new EC2 Instance
   amazon.aws.ec2_instance:
-    security_group: "{{ splunk_indexer_security_group }}" 
-    instance_type: "{{ aws_indexer_instance_type }}" 
-    image_id: "{{ aws_indexer_image_type }}" 
+    security_group: "{{ splunk_cluster_master_security_group }}" 
+    instance_type: "{{ aws_cluster_master_instance_type }}" 
+    image_id: "{{ aws_cluster_master_image_type }}" 
     wait: true 
     region: "{{ aws_region }}" 
     key_name: "{{ keypair }}"
-    exact_count: "{{ total_indexer_instances }}"
+    exact_count: "{{ total_cluster_master_instances }}"
     filters: 
-      tag:Name: "{{ indexer_tag_name }}"
+      tag:Name: "{{ cluster_master_tag_name }}"
       instance-state-name: running
   register: ec2
 
@@ -61,7 +65,7 @@
     resource: "{{ item }}"
     region: "{{ aws_region }}"
     tags:
-      Name: "{{ indexer_tag_name }}"
+      Name: "{{ cluster_master_tag_name }}"
       Env: "{{ environ }}"
       purpose: " {{ purpose }}"
   loop: "{{ ec2.instance_ids }}"
