@@ -4,7 +4,6 @@
 ## For region we currently entered 'us-east-1' and for output we entered 'json' 
 
 plugin: aws_ec2
-aws_profile: default
 regions:
   - us-east-1
   
