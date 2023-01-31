@@ -39,6 +39,9 @@ These steps should be visible in GIT. Some of them are executed manually prior t
 9.) Clone your GIT repository
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible.git
+    # Set GIT username and email
+    # git config --global user.email "you@example.com"
+    # git config --global user.name "Your Name"
 10.) Run yum_installs bash script
     # exit (you are now operating as the root user)
     # cd /opt/ansible
