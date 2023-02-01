@@ -17,3 +17,4 @@ groups:
   deployers: "'Deployer' in tags.Name"
   splunk_mgmt: "'Splunk Management' in tags.Name"
   controller: "'Ansible Controller Node' in tags.Name"
+  full: "'full' in tags.type"
