@@ -66,4 +66,5 @@
       Name: "{{ indexer_tag_name }}"
       Env: "{{ environ }}"
       purpose: " {{ purpose }}"
+      type: full
   loop: "{{ ec2.instance_ids }}"
