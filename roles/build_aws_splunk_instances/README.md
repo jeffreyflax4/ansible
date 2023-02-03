@@ -3,7 +3,7 @@ build_aws_splunk_instances
 
 These steps should be visible in GIT. Some of them are executed manually prior to starting to use this role.
 
-1.) Launch a standard AWS Free Tier instance (It might be smart to create a Launch Template for the Ansible Controller Node)
+1.) Launch a standard AWS Free Tier instance (It might be smart to create a Launch Template for the Ansible Controller Node and in the Advanced Settings of the Launch Template you can also add the IAM Role to your instance as well, skipping steps 2e-2g)
 2.) Create an IAM Role
 	   a. Go to IAM > Roles > Create Role
 	   b. AWS service and EC2 are Selected, Click Next
