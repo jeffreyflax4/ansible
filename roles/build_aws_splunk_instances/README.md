@@ -71,14 +71,25 @@ These steps should be visible in GIT. Some of them are executed manually prior t
 
 NEXT, you want to make sure you set up your dynamic inventory
 
-1.) Run aws configure, to enter in AWS credentials
-    # aws configure (then enter details for the following)
-        AWS Access Key ID [None]: <ACCESS KEY>
-        AWS Secret Access Key [None]: <SECRET KEY>
-        Default region name [None]: us-east-1
-        Default output format [None]: json
-2.) Run a command to test that you can see your inventory
+1.) Run a command to test that you can see your inventory
     # ansible-inventory -i aws_ec2.yml --graph
+
+NEXT, you need to set up passwordless SSH from the Ansible Controller node to the remote EC2 instances
+
+1.) Copy the private key file from your local machine to the controller node
+    # sudo scp -r -i Downloads/github.pem github.pem ec2-user@1.2.3.4:/var/tmp
+    # That command is run locally on your own machine, where you have the private key file saved
+2.) Give the key file proper permissions and move it to the ~/.ssh directory
+    # Back on your Ansible Controller Node - make sure you are operating as root
+    # cd /var/tmp
+    # chown -R ansible:ansible github.pem
+    # su ansible
+    # cd /var/tmp
+    # mv github.pem ~/.ssh
+3.) Now, you will need to run the add_key.yml playbook
+    # ansible-playbook -i aws_ec2.yml add-key.yml --key-file ~/.ssh/github.pem
+4.) Run a command to test that you can now successfully ping the remote EC2 instances
+    # ansible -i aws_ec2.yml full -m ping --u ec2-user 
 
 Requirements
 ------------
