@@ -1,0 +1,11 @@
+---
+- name: task to Add SSH Key to EC2 Instances
+  hosts: full
+  become: true
+  remote_user: ec2-user
+  tasks:
+    - name: Copy the Authorized Key File
+      authorized_key:
+        user: ec2-user 
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
