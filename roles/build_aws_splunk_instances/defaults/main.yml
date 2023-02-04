@@ -2,6 +2,7 @@
 # defaults file for build_aws_splunk_instances
 keypair: github
 aws_region: us-east-1
+termination_protection: false # Make this true in production, so that if you change one of the total instances below, you won't accidentally terminate an incorrect host
 # details about AWS Indexer configurations
 aws_indexer_instance_type: t2.micro
 aws_indexer_image_type: ami-0b5eea76982371e91
