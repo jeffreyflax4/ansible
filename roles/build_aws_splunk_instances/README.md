@@ -120,7 +120,7 @@ You are now ready to move to your buildout of the Splunk application on your new
 
 1.) Clone the ansible-role-for-splunk git repository (make sure you are still the 'ansible' user on the Ansible Controller Node
     # cd /opt
-    # git clone git@github.com:splunk/ansible-role-for-splunk.git
+    # git clone git@github.com:jeffreyflax4/ansible-role-for-splunk.git 
 
 Requirements
 ------------
