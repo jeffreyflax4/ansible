@@ -1,7 +1,9 @@
 build_aws_splunk_instances
 =========
 
-These steps should be visible in GIT. Some of them are executed manually prior to starting to use this role.
+########################################
+BUILD ANSIBLE CONTROLLER NODE IN AWS GUI
+########################################
 
 1.) Launch a standard AWS Free Tier instance (It might be smart to create a Launch Template for the Ansible Controller Node and in the Advanced Settings of the Launch Template you can also add the IAM Role to your instance as well, skipping steps 2e-2g)
 2.) Create an IAM Role
@@ -21,6 +23,11 @@ These steps should be visible in GIT. Some of them are executed manually prior t
        f. Select your Group Name from step (b.) and click Next
        g. Then review and click Create User
 4.) Next, create a Access Key and Secret Key for your user and save that file locally
+
+#####################################
+BUILD ANSIBLE CONTROLLER NODE VIA CLI
+#####################################
+
 5.) Log into your Ansible Controller Node AWS instance and run the initial steps
     # sudo ssh -i github.pem ec2-user@1.2.3.4
     # sudo su
@@ -55,6 +62,11 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # su ansible
     # cd /opt/ansible
     # ansible-galaxy collection install -r roles/requirements.yml
+
+################################################
+SETUP AND RUN PLAYBOOK TO BUILD SPLUNK INSTANCES
+################################################
+
 11.) Update defaults/main.yml in the role to apply any settings changes
     # vi roles/build_aws_splunk_instances/default/main.yml
 12.) Create aws_secrets file with AWS Access Key and AWS Secret Key
@@ -69,12 +81,20 @@ These steps should be visible in GIT. Some of them are executed manually prior t
     # cd /opt/ansible
     # ansible-playbook --ask-vault-pass playbook.yml
 
-NEXT, you want to make sure you set up your dynamic inventory
+##################
+DYNAMIC INVENTORY
+##################
+
+Make sure you see your new hosts in your dynamic inventory
 
 1.) Run a command to test that you can see your inventory
-    # ansible-inventory -i aws_ec2.yml --graph
+    # ansible-inventory -i splunk_aws_ec2.yml --graph
 
-NEXT, you need to set up passwordless SSH from the Ansible Controller node to the remote EC2 instances
+##################
+PASSWORDLESS SSH
+##################
+
+Set up passwordless SSH from the Ansible Controller node to the remote EC2 instances
 
 1.) Copy the private key file from your local machine to the controller node
     # sudo scp -r -i Downloads/github.pem github.pem ec2-user@1.2.3.4:/var/tmp
@@ -85,11 +105,22 @@ NEXT, you need to set up passwordless SSH from the Ansible Controller node to th
     # chown -R ansible:ansible github.pem
     # su ansible
     # cd /var/tmp
-    # mv github.pem ~/.ssh
+    # mv github.pem ~/.ssh/
+    # chmod 600 ~/.ssh/github.pem
 3.) Now, you will need to run the add_key.yml playbook
-    # ansible-playbook -i aws_ec2.yml add-key.yml --key-file ~/.ssh/github.pem
+    # ansible-playbook -i splunk_aws_ec2.yml add-key.yml --key-file ~/.ssh/github.pem
 4.) Run a command to test that you can now successfully ping the remote EC2 instances
-    # ansible -i aws_ec2.yml full -m ping --u ec2-user 
+    # ansible -i splunk_aws_ec2.yml full -m ping --u ec2-user 
+
+###########################
+ADD ANSIBLE-ROLE-FOR-SPLUNK
+###########################
+
+You are now ready to move to your buildout of the Splunk application on your new AWS infrastructure.  After you run the following commands, the README file for this role will no longer be of service
+
+1.) Clone the ansible-role-for-splunk git repository (make sure you are still the 'ansible' user on the Ansible Controller Node
+    # cd /opt
+    # git clone git@github.com:splunk/ansible-role-for-splunk.git
 
 Requirements
 ------------

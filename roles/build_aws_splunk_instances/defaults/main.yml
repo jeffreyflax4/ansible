@@ -39,5 +39,5 @@ splunk_mgmt_group_name: splunk_mgmt
 total_splunk_mgmt_instances: 1
 splunk_mgmt_tag_name: Splunk Management
 # Test Environment Variables
-environ: TEST
+environ: development
 purpose: testing
