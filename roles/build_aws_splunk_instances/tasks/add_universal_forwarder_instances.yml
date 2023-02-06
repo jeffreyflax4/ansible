@@ -1,0 +1,65 @@
+---
+- name: Task 1 - Create new ec2 Security Group
+  amazon.aws.ec2_security_group:
+    name: "{{ universalforwarder_security_group }}"
+    description: Security Group for Indexer Instances
+    region: "{{ aws_region }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8080
+        to_port: 8080
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8000
+        to_port: 8000
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8089
+        to_port: 8089
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 9997
+        to_port: 9997
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+  register: basic_firewall
+
+- name: Task 2 - Launch the new EC2 Instance
+  amazon.aws.ec2_instance:
+    security_group: "{{ universalforwarder_security_group }}" 
+    instance_type: "{{ aws_universalforwarder_instance_type }}" 
+    image_id: "{{ aws_universalforwarder_image_type }}" 
+    wait: true 
+    region: "{{ aws_region }}" 
+    key_name: "{{ keypair }}"
+    exact_count: "{{ total_universalforwarder_instances }}"
+    termination_protection: "{{ termination_protection }}"
+    filters: 
+      tag:Name: "{{ universalforwarder_tag_name }}"
+      instance-state-name: running
+  register: ec2
+
+- name: Task 3 - Add Tagging to EC2 instance
+  ignore_errors: true
+  amazon.aws.ec2_tag:
+    state: present
+    resource: "{{ item }}"
+    region: "{{ aws_region }}"
+    tags:
+      Name: "{{ universalforwarder_tag_name }}"
+      Env: "{{ environ }}"
+      purpose: " {{ purpose }}"
+      type: uf
+  loop: "{{ ec2.instance_ids }}"

@@ -10,18 +10,23 @@ filters:
   tag:Name:
     - Indexer
     - Search Head
-    - Cluster Master
+    - Cluster Manager
     - Deployer
     - Splunk Management
+    - Heavy Forwarder
+    - Universal Forwarder
   
 hostnames:
   - ip-address
 
 groups:
-  indexers: "'Indexer' in tags.Name"
-  search_heads: "'Search Head' in tags.Name"
-  cluster_masters: "'Cluster Master' in tags.Name"
-  deployers: "'Deployer' in tags.Name"
+  indexer: "'Indexer' in tags.Name"
+  search: "'Search Head' in tags.Name"
+  clustermanager: "'Cluster Manager' in tags.Name"
+  shdeployer: "'Deployer' in tags.Name"
   splunk_mgmt: "'Splunk Management' in tags.Name"
   controller: "'Ansible Controller Node' in tags.Name"
+  heavyforwarder: "'Heavy Forwarder' in tags.Name"
+  universalforwarder: "'Universal Forwarder' in tags.Name"
   full: "'full' in tags.type"
+  uf: "'uf' in tags.type"

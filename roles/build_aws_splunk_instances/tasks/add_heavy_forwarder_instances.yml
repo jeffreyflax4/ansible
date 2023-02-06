@@ -1,8 +1,8 @@
 ---
 - name: Task 1 - Create new ec2 Security Group
   amazon.aws.ec2_security_group:
-    name: "{{ splunk_cluster_master_security_group }}"
-    description: Security Group for Cluster Master Instances
+    name: "{{ heavyforwarder_security_group }}"
+    description: Security Group for Indexer Instances
     region: "{{ aws_region }}"
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
@@ -24,20 +24,12 @@
         to_port: 8000
         cidr_ip: 0.0.0.0/0
       - proto: tcp
-        from_port: 443
-        to_port: 443
-        cidr_ip: 0.0.0.0/0
-      - proto: tcp
         from_port: 8089
         to_port: 8089
         cidr_ip: 0.0.0.0/0
       - proto: tcp
         from_port: 9997
         to_port: 9997
-        cidr_ip: 0.0.0.0/0
-      - proto: tcp
-        from_port: 9887
-        to_port: 9887
         cidr_ip: 0.0.0.0/0
     rules_egress:
       - proto: all
@@ -46,16 +38,16 @@
 
 - name: Task 2 - Launch the new EC2 Instance
   amazon.aws.ec2_instance:
-    security_group: "{{ splunk_cluster_master_security_group }}" 
-    instance_type: "{{ aws_cluster_master_instance_type }}" 
-    image_id: "{{ aws_cluster_master_image_type }}" 
+    security_group: "{{ heavyforwarder_security_group }}" 
+    instance_type: "{{ aws_heavyforwarder_instance_type }}" 
+    image_id: "{{ aws_heavyforwarder_image_type }}" 
     wait: true 
     region: "{{ aws_region }}" 
     key_name: "{{ keypair }}"
-    exact_count: "{{ total_cluster_master_instances }}"
+    exact_count: "{{ total_heavyforwarder_instances }}"
     termination_protection: "{{ termination_protection }}"
     filters: 
-      tag:Name: "{{ cluster_master_tag_name }}"
+      tag:Name: "{{ heavyforwarder_tag_name }}"
       instance-state-name: running
   register: ec2
 
@@ -66,7 +58,7 @@
     resource: "{{ item }}"
     region: "{{ aws_region }}"
     tags:
-      Name: "{{ cluster_master_tag_name }}"
+      Name: "{{ heavyforwarder_tag_name }}"
       Env: "{{ environ }}"
       purpose: " {{ purpose }}"
       type: full

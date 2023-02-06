@@ -8,8 +8,14 @@
 - name: Add deployer instances
   include_tasks: add_deployer_instances.yml
 
-- name: Add cluster master instances
-  include_tasks: add_cluster_master_instances.yml
+- name: Add cluster manager instances
+  include_tasks: add_cluster_manager_instances.yml
 
-- name: Add splunk mgmt (LM/DS/CM) isntances
+- name: Add splunk mgmt (LM/DS/CM) instances
   include_tasks: add_splunk_mgmt_instances.yml
+    
+- name: Add heavy forwarder instances
+  include_tasks: add_heavy_forwarder_instances.yml
+
+- name: Add universal forwarder instances
+  include_tasks: add_universal_forwarder_instances.yml
