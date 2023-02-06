@@ -121,6 +121,7 @@ You are now ready to move to your buildout of the Splunk application on your new
 1.) Clone the ansible-role-for-splunk git repository (make sure you are still the 'ansible' user on the Ansible Controller Node
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible-role-for-splunk.git 
+    # AS OF 2/5/23: The only thing that needs to be updated right now is the splunk_uri_ds and the splunk_uri_lm in the defaults/main.yml file.  Use the Public IPv4 DNS for the Splunk Management instance for this
 
 Requirements
 ------------
