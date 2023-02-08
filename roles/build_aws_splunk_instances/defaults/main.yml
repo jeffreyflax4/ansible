@@ -10,6 +10,8 @@ splunk_indexer_security_group: my-splunk-idx-sg
 indexers_group_name: indexers 
 total_indexer_instances: 6
 indexer_tag_name: Indexer
+indexer_volume_size: 5
+indexer_volume_name: my-splunk-idx-vg
 # details about AWS Search Head Configurations
 aws_search_head_instance_type: t2.micro
 aws_search_head_image_type: ami-0b5eea76982371e91
@@ -17,6 +19,8 @@ splunk_search_head_security_group: my-splunk-sh-sg
 search_heads_group_name: search_heads
 total_search_head_instances: 3
 search_head_tag_name: Search Head
+search_head_volume_size: 5
+search_head_volume_name: my-splunk-sh-vg
 # details about AWS Deployer Configurations
 aws_deployer_instance_type: t2.micro
 aws_deployer_image_type: ami-0b5eea76982371e91
@@ -24,6 +28,8 @@ splunk_deployer_security_group: my-splunk-deployer-sg
 deployers_group_name: deployers
 total_deployer_instances: 1
 deployer_tag_name: Deployer
+deployer_volume_size: 5
+deployer_volume_name: my-splunk-deployer-vg
 # details about AWS Cluster Master Configurations
 aws_cluster_manager_instance_type: t2.micro
 aws_cluster_manager_image_type: ami-0b5eea76982371e91
@@ -31,6 +37,8 @@ splunk_cluster_manager_security_group: my-splunk-cm-sg
 cluster_managers_group_name: cluster_managers
 total_cluster_manager_instances: 1
 cluster_manager_tag_name: Cluster Manager
+cluster_manager_volume_size: 5
+cluster_manager_volume_name: my-splunk-cm-vg
 # details about AWS Splunk Management (LM/DS/MC) Configurations
 aws_splunk_mgmt_instance_type: t2.micro
 aws_splunk_mgmt_image_type: ami-0b5eea76982371e91
@@ -38,6 +46,8 @@ splunk_mgmt_security_group: my-splunk-mgmt-sg
 splunk_mgmt_group_name: splunk_mgmt
 total_splunk_mgmt_instances: 1
 splunk_mgmt_tag_name: Splunk Management
+splunk_mgmt_volume_size: 5
+splunk_mgmt_volume_name: my-splunk-cm-vg
 # details about AWS Heavy Forwarder Configurations
 aws_heavyforwarder_instance_type: t2.micro
 aws_heavyforwarder_image_type: ami-0b5eea76982371e91
@@ -45,6 +55,8 @@ heavyforwarder_security_group: my-hf-sg
 heavyforwarder_group_name: heavyforwarders
 total_heavyforwarder_instances: 1
 heavyforwarder_tag_name: Heavy Forwarder
+heavyforwarder_volume_size: 5
+heavyforwarder_volume_name: my-splunk-cm-vg
 # details about AWS Universal Forwarder Configurations
 aws_universalforwarder_instance_type: t2.micro
 aws_universalforwarder_image_type: ami-0b5eea76982371e91
@@ -52,6 +64,8 @@ universalforwarder_security_group: my-splunk-uf-sg
 universalforwarder_group_name: universalforwarders
 total_universalforwarder_instances: 1
 universalforwarder_tag_name: Universal Forwarder
+universalforwarder_volume_size: 5
+universalforwarder_volume_name: my-splunk-uf-vg
 # Test Environment Variables
 environ: development
 purpose: testing
