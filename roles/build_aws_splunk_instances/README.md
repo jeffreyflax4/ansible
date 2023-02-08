@@ -90,9 +90,9 @@ Make sure you see your new hosts in your dynamic inventory
 1.) Run a command to test that you can see your inventory
     # ansible-inventory -i splunk_aws_ec2.yml --graph
 
-##################
-PASSWORDLESS SSH
-##################
+##################################
+PASSWORDLESS SSH AND MOUNT VOLUMES
+##################################
 
 Set up passwordless SSH from the Ansible Controller node to the remote EC2 instances
 
@@ -107,8 +107,8 @@ Set up passwordless SSH from the Ansible Controller node to the remote EC2 insta
     # cd /var/tmp
     # mv github.pem ~/.ssh/
     # chmod 600 ~/.ssh/github.pem
-3.) Now, you will need to run the add_key.yml playbook
-    # ansible-playbook -i splunk_aws_ec2.yml add-key.yml --key-file ~/.ssh/github.pem
+3.) Now, you will need to run the add_key-mount-volumes.yml playbook to add the SSH key, and mount the volumes created above to the /opt directory
+    # ansible-playbook -i splunk_aws_ec2.yml add-key-mount-volumes.yml --key-file ~/.ssh/github.pem
 4.) Run a command to test that you can now successfully ping the remote EC2 instances
     # ansible -i splunk_aws_ec2.yml full -m ping -u ec2-user 
 
