@@ -50,6 +50,11 @@
     key_name: "{{ keypair }}"
     exact_count: "{{ total_indexer_instances }}"
     termination_protection: "{{ termination_protection }}"
+    volumes:
+      - device_name: /dev/sdf
+        ebs:
+          volume_size: "{{ indexer_volume_size }}"
+          volume_type: gp2
     filters: 
       tag:Name: "{{ indexer_tag_name }}"
       instance-state-name: running
@@ -67,19 +72,3 @@
       purpose: " {{ purpose }}"
       type: full
   loop: "{{ ec2.instance_ids }}"
-
-- name: Task 4 - Add 5GB Volumes to EC2 instances
-  ignore_errors: true
-  amazon.aws.ec2_vol:
-    instance: "{{ item }}"
-    region: "{{ aws_region }}"
-    device_name: /dev/sdf
-    volume_size: "{{ indexer_volume_size }}"
-    volume_type: gp2
-    name: "{{ ec2.instance_ids }}"
-  loop: "{{ ec2.instance_ids }}"
-  register: ec2_vol
-
-- name: Print ec2_vol information
-  debug:
-    var: ec2_vol
