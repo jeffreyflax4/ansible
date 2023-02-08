@@ -80,7 +80,7 @@
     device_name: /dev/sdf
     volume_size: "{{ search_head_volume_size }}"
     volume_type: gp2
-    name: "{{ search_head_volume_name }}"
+    name: "{{ ec2.instance_ids }}"
   loop: "{{ ec2.instance_ids }}"
   register: ec2_vol
 

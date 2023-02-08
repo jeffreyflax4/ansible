@@ -1,6 +1,6 @@
 ---
 - name: task to Add SSH Key to EC2 Instances
-  hosts: full
+  hosts: full, uf
   become: true
   remote_user: ec2-user
   tasks:
@@ -10,9 +10,14 @@
         state: present
         key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
     
+    - name: Create a ext4 filesystem on /dev/xvdf
+      filesystem:
+        fstype: ext4
+        dev: /dev/xvdf
+
     - name: Mount the filesystem to /opt
       mount:
         path: /opt
-        src: /dev/sdf
-        state: present
+        src: /dev/xvdf
+        state: mounted
         fstype: ext4

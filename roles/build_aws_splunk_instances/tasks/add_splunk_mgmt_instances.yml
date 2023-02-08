@@ -76,7 +76,7 @@
     device_name: /dev/sdf
     volume_size: "{{ splunk_mgmt_volume_size }}"
     volume_type: gp2
-    name: "{{ splunk_mgmt_volume_name }}"
+    name: "{{ ec2.instance_ids }}"
   loop: "{{ ec2.instance_ids }}"
   register: ec2_vol
 
