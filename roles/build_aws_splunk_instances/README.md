@@ -110,7 +110,8 @@ Set up passwordless SSH from the Ansible Controller node to the remote EC2 insta
 3.) Now, you will need to run the add_key-mount-volumes.yml playbook to add the SSH key, and mount the volumes created above to the /opt directory
     # ansible-playbook -i splunk_aws_ec2.yml add-key-mount-volumes.yml --key-file ~/.ssh/github.pem
 4.) Run a command to test that you can now successfully ping the remote EC2 instances
-    # ansible -i splunk_aws_ec2.yml full -m ping -u ec2-user 
+    # ansible -i splunk_aws_ec2.yml full -m ping -u ec2-user ## confirm you can successfully ping each instance
+    # ansible -i splunk_aws_ec2.yml full -m shell -a "df -h" -u ec2-user ## check to see that the /opt directory was mounted and has desired storage amounts
 
 ###########################
 ADD ANSIBLE-ROLE-FOR-SPLUNK
