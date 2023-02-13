@@ -32,3 +32,4 @@ groups:
   uf: "'uf' in tags.type"
   my-ds: "'Splunk Management' in tags.Name"
   my-lm-host: "'Splunk Management' in tags.Name"
+  shc: "'Search Head' in tags.Name"
