@@ -30,3 +30,5 @@ groups:
   universalforwarder: "'Universal Forwarder' in tags.Name"
   full: "'full' in tags.type"
   uf: "'uf' in tags.type"
+  my-ds: "'Splunk Management' in tags.Name"
+  my-lm-host: "'Splunk Management' in tags.Name"
