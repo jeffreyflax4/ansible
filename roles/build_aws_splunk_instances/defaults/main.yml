@@ -51,7 +51,7 @@ splunk_mgmt_volume_name: my-splunk-cm-vg
 # details about AWS Heavy Forwarder Configurations
 aws_heavyforwarder_instance_type: t2.micro
 aws_heavyforwarder_image_type: ami-0b5eea76982371e91
-heavyforwarder_security_group: my-hf-sg
+heavyforwarder_security_group: my-splunk-hf-sg
 heavyforwarder_group_name: heavyforwarders
 total_heavyforwarder_instances: 1
 heavyforwarder_tag_name: Heavy Forwarder
