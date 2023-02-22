@@ -122,7 +122,7 @@ You are now ready to move to your buildout of the Splunk application on your new
 1.) Clone the ansible-role-for-splunk git repository (make sure you are still the 'ansible' user on the Ansible Controller Node
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible-role-for-splunk.git 
-    # AS OF 2/13/23: The only thing that needs to be updated right now is the splunk_uri_ds, splunk_uri_lm and the splunk_uri_cm in the defaults/main.yml file.  Use the Public IPv4 DNS for the Splunk Management instance for this
+    # AS OF 2/13/23: The only thing that needs to be updated right now is the splunk_uri_ds, splunk_uri_lm and the splunk_uri_cm in the defaults/main.yml file.  Use the Public IPv4 DNS for the Splunk Management instance/Cluster Manager instance for this.  Also make sure to update the URI in the environments/production/group_vars/all.yml file
     # AS of 2/13/23: The only two playbooks that are being used at this time are splunk_install_or_upgrade.yml and splunk_shc_deploy.yml.  The plan is to use the Deployment Server functionaility and the splunk_app_install playbook to install the remaining files to set up the Splunk environment.
 
 Requirements
