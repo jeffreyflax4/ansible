@@ -28,37 +28,37 @@ BUILD ANSIBLE CONTROLLER NODE IN AWS GUI
 BUILD ANSIBLE CONTROLLER NODE VIA CLI
 #####################################
 
-5.) Log into your Ansible Controller Node AWS instance and run the initial steps
+1.) Log into your Ansible Controller Node AWS instance and run the initial steps
     # sudo ssh -i github.pem ec2-user@1.2.3.4
     # sudo su
     # adduser ansible
     # amazon-linux-extras install epel -y
     # yum install git -y
-6.) In this setup, we will use /opt as the working directory, and we want the ansible user to have write permissions for that directory
+2.) In this setup, we will use /opt as the working directory, and we want the ansible user to have write permissions for that directory
     # setfacl -R -m u:ansible:rwx /opt
     # su ansible
-7.) Create SSH Key-Pair
+3.) Create SSH Key-Pair
     # cd ~
     # ssh-keygen # Just hit enter until the process completed
     # cat .ssh/id_rsa.pub
-8.) Copy the entire contents of the Public Key and add it to the GitHub you are using
+4.) Copy the entire contents of the Public Key and add it to the GitHub you are using
     # Settings > SSH and GPG Keys > New SSH key (Give the key a name and paste)
-9.) Clone your GIT repository
+5.) Clone your GIT repository
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible.git
     # Set GIT username and email
     # git config --global user.email "you@example.com"
     # git config --global user.name "Your Name"
-10.) Run yum_installs bash script
+6.) Run yum_installs bash script
     # exit (you are now operating as the root user)
     # cd /opt/ansible
     # sh yum_installs.sh (this will take a few minutes)
-11.) Make sure that Ansible is running python3
+7.) Make sure that Ansible is running python3
     # ansible --version (looking for python version)
     # vi /usr/bin/ansible
     # On the first line, change #!/usr/bin/python2 to #!/usr/bin/python3
     # ansible --version (you should now see 3.x for the python version)
-10.) Install Amazon.AWS Collection, as ansible user
+8.) Install Amazon.AWS Collection, as ansible user
     # su ansible
     # cd /opt/ansible
     # ansible-galaxy collection install -r roles/requirements.yml
@@ -67,9 +67,9 @@ BUILD ANSIBLE CONTROLLER NODE VIA CLI
 SETUP AND RUN PLAYBOOK TO BUILD SPLUNK INSTANCES
 ################################################
 
-11.) Update defaults/main.yml in the role to apply any settings changes
+1.) Update defaults/main.yml in the role to apply any settings changes
     # vi roles/build_aws_splunk_instances/default/main.yml
-12.) Create aws_secrets file with AWS Access Key and AWS Secret Key
+2.) Create aws_secrets file with AWS Access Key and AWS Secret Key
     # cd /opt
     # mkdir secrets
     # cd secrets
@@ -77,7 +77,7 @@ SETUP AND RUN PLAYBOOK TO BUILD SPLUNK INSTANCES
     # Set up a password, and then create a file with two lines (use keys from Step 4 above)
     	aws_access_key: <ACCESS_KEY>
 	aws_secret_key: <SECRET_KEY>
-13.) Run playbook.yml to create the desired instances
+3.) Run playbook.yml to create the desired instances
     # cd /opt/ansible
     # ansible-playbook --ask-vault-pass playbook.yml
 
@@ -117,13 +117,82 @@ Set up passwordless SSH from the Ansible Controller node to the remote EC2 insta
 ADD ANSIBLE-ROLE-FOR-SPLUNK
 ###########################
 
-You are now ready to move to your buildout of the Splunk application on your new AWS infrastructure.  After you run the following commands, the README file for this role will no longer be of service
+You are now ready to move to your buildout of the Splunk application on your new AWS infrastructure. Start by cloning the git repository for the ansible-role-for-splunk and updating the appropriate variables
 
 1.) Clone the ansible-role-for-splunk git repository (make sure you are still the 'ansible' user on the Ansible Controller Node
     # cd /opt
     # git clone git@github.com:jeffreyflax4/ansible-role-for-splunk.git 
-    # AS OF 2/13/23: The only thing that needs to be updated right now is the splunk_uri_ds, splunk_uri_lm and the splunk_uri_cm in the defaults/main.yml file.  Use the Public IPv4 DNS for the Splunk Management instance/Cluster Manager instance for this.  Also make sure to update the URI in the environments/production/group_vars/all.yml file
-    # AS of 2/13/23: The only two playbooks that are being used at this time are splunk_install_or_upgrade.yml and splunk_shc_deploy.yml.  The plan is to use the Deployment Server functionaility and the splunk_app_install playbook to install the remaining files to set up the Splunk environment.
+2.) Edit the approrpiate variables based on the updated Public IPv4 DNS names of your AWS instances
+    # vi /opt/ansible-role-for-splunk/roles/splunk/defaults/main.yml
+    # Update the splunk_uri_ds, splunk_uri_lm, and the splunk_uri_cm
+    # vi /opt/ansible-role-for-splunk/environments/production/group_vars/all.yml
+    # Update the splunk_uri_lm
+
+####################################
+INSTALL SPLUNK AND DEPLOY SH CLUSTER
+####################################
+
+1.) First, install Splunk
+    # cd /opt/ansible-role-for-splunk/playbooks
+    # ansible-playbook --ask-vault-pass splunk_install_or_upgrade.yml
+2.) You should now be able to log into the splunk_mgmt host via SplunkWeb
+    # http://<splunk_mgmt>:8000
+3.) Go to Settings > Forwarder Management and make sure you have your CM, Deployer, and any UFs/HFs (be a little patient as it may take a few minutes for these to check in)
+4.) If any of those are missing, repeat step 1 and check again (sometimes the UF does not get installed properly on the first time through)
+5.) Next, Deploy the Search Head Cluster
+    # cd /opt/ansible-role-for-splunk/playbooks
+    # ansible-playbook --ask-vault-pass splunk_shc_deploy.yml
+6.) When this finishes, you can log into any of your Search Heads, and you should then be able to go to the Settings > Search Head Clustering page
+
+########################
+SET UP DEPLOYMENT SERVER
+########################
+
+Now it is time to build out the proper Splunk environment using the Deployment SServer functionality
+
+1.) Clone the ansible-role-for-splunk git repository (make sure you are still the 'ansible' user on the Ansible Controller Node
+    # cd /opt
+    # git clone git@github.com:jeffreyflax4/deployment-apps.git
+2.) Make all appropriate edits to the following files:
+    # in apps/ folder
+        # ansible_all_forwarder_outputs - Update server list in outputs.conf (indexers)
+        # ansible_cluster_indexer_base - Update manager_uri setting in server.conf (cluster manager)
+        # ansible_cluster_search_base - Update manager_uri setting in server.conf (cluster manager)
+        # ansible_full_license_server - Update mananger_uri setting in server.conf (splunk_mgmt)
+
+    # in cluster_master_apps/ folder
+        # ansible_all_forwarder_outputs - Copy file from apps/ folder over
+        # ansible_cluster_search_base - Update manager_uri setting in server.conf (cluster manager)
+        # ansible_full_license_server - Copy file from apps/ folder over
+        # ansible_manager_deploymentclient - Update target_uri setting in deploymentclient.conf (deployment server)
+
+    # in deployer_apps/ folder
+        # ansible_all_forwarder_outputs - Copy file from apps/ folder over
+        # ansible_deployer_deploymentclient - Update target_uri setting in deploymentclient.conf (deployment server)
+        # ansible_full_license_server - Copy file from apps/ folder over
+
+    # in playbooks/configure_deployment_server.yml file
+        # Update the Target URI for the SH Cluster Bundle push command (can be any SH URI)
+
+    # in serverclass.conf
+        # serverClass:All_Forwarders - Blacklist the Cluster Master Private IP addr
+        # serverClass:Deployer - Whitelist the Deployer Private IP addr
+        # serverClass:Cluster Manager - Whitelist the Cluster Manager Private IP addr
+        # serverClass:Heavy_Forwarders - Whitelist the Heavy Forwarder(s) Private IP addr
+
+####################################
+INSTALL SPLUNK AND DEPLOY SH CLUSTER
+####################################
+
+1.) Run the playbook to configure the Deployment Server functionality
+    # cd /opt/deployment-apps/playbooks
+    # ansible-playbook --ask-vault-pass configure_deployment_server.yml
+2.) After the playbook runs, there are a few validation steps you can take
+    # Log into a search head and run a search
+    # index="internal" | stats count by host
+    # Confirm that 14 hosts have sent their internal logs
+    # Go to the Deployment Server and see that your serverclasses are set up and functioning
+    # Go to the Cluster Master Splunk Web and go to Settings > Indexer Clustering to see that your clustering is set up and working
 
 Requirements
 ------------
