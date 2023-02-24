@@ -184,13 +184,20 @@ Now it is time to build out the proper Splunk environment using the Deployment S
 INSTALL SPLUNK AND DEPLOY SH CLUSTER
 ####################################
 
-1.) Run the playbook to configure the Deployment Server functionality
+1.) Run the playbook first to fix some issues with the ansible-role-for-splunk
     # cd /opt/deployment-apps/playbooks
+    # ansible-playbook fix_splunk_issues.yml
+2.) Then, run the playbook to configure the Deployment Server functionality
     # ansible-playbook --ask-vault-pass configure_deployment_server.yml
-2.) After the playbook runs, there are a few validation steps you can take
+3.) Next, run two playbooks (after a minute or two), to push out the newest bundles
+    # ansible-playbook --ask-vault-pass idx_cluster_bundle_push.yml
+    # ansible-playbook --ask-vault-pass deployer_bundle_push.yml
+4.) After the playbook runs, there are a few validation steps you can take
     # Log into a search head and run a search
     # index="internal" | stats count by host
     # Confirm that 14 hosts have sent their internal logs
+    # index=linux
+    # Check that you can now see the linux logs being collected from the Linux hosts
     # Go to the Deployment Server and see that your serverclasses are set up and functioning
     # Go to the Cluster Master Splunk Web and go to Settings > Indexer Clustering to see that your clustering is set up and working
 
