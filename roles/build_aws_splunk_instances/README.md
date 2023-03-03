@@ -162,7 +162,6 @@ Now it is time to build out the proper Splunk environment using the Deployment S
 
     # in cluster_master_apps/ folder
         # ansible_all_forwarder_outputs - Copy file from apps/ folder over
-        # ansible_cluster_search_base - Update manager_uri setting in server.conf (cluster manager)
         # ansible_full_license_server - Copy file from apps/ folder over
         # ansible_manager_deploymentclient - Update target_uri setting in deploymentclient.conf (deployment server)
 
@@ -171,7 +170,7 @@ Now it is time to build out the proper Splunk environment using the Deployment S
         # ansible_deployer_deploymentclient - Update target_uri setting in deploymentclient.conf (deployment server)
         # ansible_full_license_server - Copy file from apps/ folder over
 
-    # in playbooks/configure_deployment_server.yml file
+    # in playbooks/deployer_bundle_push.yml file
         # Update the Target URI for the SH Cluster Bundle push command (can be any SH URI)
 
     # in serverclass.conf
