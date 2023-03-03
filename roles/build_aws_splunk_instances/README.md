@@ -188,7 +188,7 @@ INSTALL SPLUNK AND DEPLOY SH CLUSTER
     # ansible-playbook fix_splunk_issues.yml
 2.) Then, run the playbook to configure the Deployment Server functionality
     # ansible-playbook --ask-vault-pass configure_deployment_server.yml
-3.) Next, run two playbooks (after a minute or two), to push out the newest bundles
+3.) Next, run two playbooks (after a minute or two - I typically wait until the CM and Deployer show again as clients on the Deployment Server), to push out the newest bundles
     # ansible-playbook --ask-vault-pass idx_cluster_bundle_push.yml
     # ansible-playbook --ask-vault-pass deployer_bundle_push.yml
 4.) After the playbook runs, there are a few validation steps you can take
