@@ -1,6 +1,8 @@
 build_aws_splunk_instances
 =========
 
+YouTube video for using GitHub to collaborate on this effort: https://www.youtube.com/watch?v=MnUd31TvBoU
+
 ########################################
 BUILD ANSIBLE CONTROLLER NODE IN AWS GUI
 ########################################
